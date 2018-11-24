@@ -19,7 +19,7 @@ def bet(x_coordinate, y_coordinate, ticket_type, user_id):
     return bet_c.add_new_bet(x_coordinate, y_coordinate, ticket_type, user_id)
 
 @app.route('/prices')
-def prices():
+def prices(price, size):
     pass
 
 
