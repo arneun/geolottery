@@ -3,7 +3,8 @@
 from distutils.core import setup
 
 setup(
-        name=='Geolottery'
+        name='Geolottery',
+        modules = ['bets', 'map', 'random', 'user'] 
         install_requires=['flask']
         )
 
