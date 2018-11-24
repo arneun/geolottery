@@ -77,5 +77,17 @@ class Database:
             result.append(Price(row[0], row[1]) )
         return result
 
+    def get_bets(self, user_id):
+        conn = sqlite3.connect('/home/.geolottery_storage')
+        c = conn.cursor()
+        c.execute('''SELECT (id, latitude, longitude, ticket_type, timestamp) FROM bets WHERE user_id = ?''' (user_id) )
+        res = c.fetchall()
+        conn.commit()
+        conn.close()
+        
+        result = [] 
+        for row in res:
+            result.append(Bet( row[1], row[2], row[3], row[4], user_id) )
+        return result
 
 
