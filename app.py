@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/register/<name>/<email>/<password>')
 def registration(name, email, password):
-    Database().setup()
+    print(name + " " + email + " " + password)
     user_c = UserController()
     return user_c.register_user(name, email, password)
 
