@@ -32,4 +32,3 @@ def prices(price, size):
 def prizes(prize, size):
     prize_c = PrizeController()
     return prize_c.get_prizes()
-
