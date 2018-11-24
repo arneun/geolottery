@@ -23,5 +23,7 @@ def prices(price, size):
     price_c = PriceController()
     return price_c.get_prices()
 
-
-
+@app.route('/prizes')
+def prizes(prize, size):
+    prize_c = PrizeController()
+    return prize_c.get_prizes()
