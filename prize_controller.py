@@ -1,5 +1,5 @@
 from database import Database
-from prize import Prize
+from prize import Prizes
 from flask import jsonify
 
 class PrizeController:
