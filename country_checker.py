@@ -1,5 +1,6 @@
 import json
 import requests
+from flask import jsonify
 
 
 class CountryChecker:
@@ -18,7 +19,5 @@ class CountryChecker:
 
         response_json = json.loads(response.content)
 
-        if response_json['address']['country_code'] == 'pl':
-            return True
-        return False
+        return jsonify(response_json['address']['country_code'] == 'pl')
 
