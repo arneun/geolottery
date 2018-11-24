@@ -2,6 +2,7 @@
 import sqlite3
 from user import User
 from bet import Bet
+from price import Price
 
 
 class Database:
@@ -24,11 +25,11 @@ class Database:
         conn = sqlite3.connect('/home/.geolottery_storage')
         c = conn.cursor()
         c.execute('''SELECT name, number FROM user WHERE name=? AND mail=? ''', (user_name, user_password) )
-        res = c.fetchall()
+        res = c.fetchone()
         conn.commit()
         conn.close()
-
-        return User(res[0], res[1], res[2])
+                
+        return res is None
         
     def get_newest_user(self):
         conn = sqlite3.connect('/home/.geolottery_storage')
@@ -62,3 +63,17 @@ class Database:
         c.execute('''INSERT INTO users (numer, name, email, password ) VALUES (?,?,?,?)''', (self.get_newest_user() + 1, user.name, user.email, user.password))
         conn.commit()
         conn.close()
+        
+    def get_prices(self):
+        conn = sqlite3.connect('/home/.geolottery_storage')
+        c = conn.cursor()
+        c.execute('''SELECT (size, price) FROM prices''' )
+        res = c.fetchall()
+        conn.commit()
+        conn.close()
+        
+        result = [] 
+        for row in res:
+            result.append(Price(row[0], row[1]) )
+        return result
+
