@@ -1,15 +1,16 @@
+from database import Database
+from user import User
 
 
 class UserController:
     
-    def register(username, password):
-        
-        
-        pass
+    def __init__(self):
+        self.connection = Database()
 
-    def login(username, password):
-        pass
+    def register_user(self, name, email, password):
+        user = User(name, email, password)
+        self.connection.add_user(user)
+        return user
 
-    def  
-
-
+    def authenticate(self, username, password):
+       return self.connection.authenticate(username, password)

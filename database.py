@@ -4,6 +4,7 @@ from user import User
 from bet import Bet
 from price import Price
 
+
 class Database:
 
     def setup(self):
@@ -47,23 +48,22 @@ class Database:
         conn.commit()
         conn.close()
         return res[0]
-    
 
     def add_bet(self, bet):
         conn = sqlite3.connect('/home/.geolottery_storage')
         c = conn.cursor()
-        c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?)''', (get_newest_bet()+1, bet.latitude, bet.longitude, bet.ticket_type, bet.timestamp, bet.user))
+        c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?)''', (
+        self.get_newest_bet() + 1, bet.latitude, bet.longitude, bet.ticket_type, bet.timestamp, bet.user))
         conn.commit()
         conn.close()
-    
 
     def add_user(self, user):
         conn = sqlite3.connect('/home/.geolottery_storage')
         c = conn.cursor()
-        c.execute('''INSERT INTO users (numer, name, email, password ) VALUES (?,?,?,?)''', (get_newest_user() +1, user.name, user.email, user.password))
+        c.execute('''INSERT INTO users (numer, name, email, password ) VALUES (?,?,?,?)''', (self.get_newest_user() + 1, user.name, user.email, user.password))
         conn.commit()
         conn.close()
-    
+        
     def get_prices(self):
         conn = sqlite3.connect('/home/.geolottery_storage')
         c = conn.cursor()
