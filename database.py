@@ -90,4 +90,15 @@ class Database:
             result.append(Bet( row[1], row[2], row[3], row[4], user_id) )
         return result
 
-
+    def get_prizes(self):
+        conn = sqlite3.connect('/home/.geolottery_storage')
+        c = conn.cursor()
+        c.execute('''SELECT (lottery_time, prize) FROM prices''' )
+        res = c.fetchall()
+        conn.commit()
+        conn.close()
+        
+        result = [] 
+        for row in res:
+            result.append(Prize(row[0], row[1]) )
+        return result
