@@ -8,7 +8,7 @@ class BetController:
     def __init__(self, bet_manager):
         self.bet_manager = bet_manager
 
-    def handleRequest(self, x_coordinate, y_coordinate, ticket_type):
+    def add_new_bet(self, x_coordinate, y_coordinate, ticket_type):
         checker = country_checker.CountryChecker()
 
         if checker.check_if_in_poland(x_coordinate, y_coordinate):
