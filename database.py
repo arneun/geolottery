@@ -12,7 +12,7 @@ class Database:
     def setup(self):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''CREATE TABLE user (number integer, name text, mail text, password text) ''')
+        c.execute('''CREATE TABLE users (number integer, name text, mail text, password text) ''')
         conn.commit()
         c.execute('''CREATE TABLE prices (size integer, price integer)''')
         conn.commit()
@@ -37,19 +37,26 @@ class Database:
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
         c.execute('''SELECT MAX(number) FROM user''')
-        res = c.fetchall()
+        res = c.fetchone()
         conn.commit()
         conn.close()
-        return res[0]
+        if res[0] is None:
+            return 0
+        else:
+            return res[0]
     
     def get_newest_bet(self):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
         c.execute('''SELECT MAX(id) FROM bets''')
-        res = c.fetchall()
+        res = c.fetchone()
         conn.commit()
         conn.close()
-        return res[0]
+        
+        if res[0] is None:
+            return 0
+        else:
+            return res[0]
 
     def add_bet(self, bet):
         conn = sqlite3.connect(self.storage)
@@ -62,7 +69,7 @@ class Database:
     def add_user(self, user):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''INSERT INTO users (numer, name, email, password ) VALUES (?,?,?,?)''', (self.get_newest_user() + 1, user.name, user.email, user.password))
+        c.execute('''INSERT INTO users (number, name, mail, password ) VALUES (?,?,?,?)''', ((self.get_newest_user() + 1) , user.name, user.email, user.password))
         conn.commit()
         conn.close()
         
@@ -82,7 +89,7 @@ class Database:
     def get_user_bets(self, user_id):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''SELECT (id, latitude, longitude, ticket_type, timestamp) FROM bets WHERE user_id = ?''' (user_id) )
+        c.execute('''SELECT (id, latitude, longitude, ticket_type, timestamp) FROM bets WHERE user_id = ?''', (user_id) )
         res = c.fetchall()
         conn.commit()
         conn.close()
