@@ -2,6 +2,7 @@
 import sqlite3
 from user import User
 from bet import Bet
+from price import Price
 
 class Database:
 
@@ -71,3 +72,10 @@ class Database:
         conn.commit()
         conn.close()
         
+        result = [] 
+        for row in res:
+            result.append(Price(row[0], row[1]) )
+        return result
+
+
+
