@@ -28,10 +28,10 @@ class Database:
 
         return User(res[0], res[1], res[2])
         
-    def get_newest_user(self)
+    def get_newest_user(self):
         conn = sqlite3.connect('/home/.geolottery_storage')
         c = conn.cursor()
-        c.execute('''SELECT MAX(number) FROM user''', (user_name, user_password) )
+        c.execute('''SELECT MAX(number) FROM user''')
         res = c.fetchall()
         conn.commit()
         conn.close()
