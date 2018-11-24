@@ -14,7 +14,7 @@ def bet(x_coordinate, y_coordinate, ticket_type):
     pass
 
 @app.route('/prices')
-def prices():
+def prices(price, size):
     pass
 
 
