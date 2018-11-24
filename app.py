@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session, request
 import os
 
 
@@ -16,4 +16,6 @@ def bet(x_coordinate, y_coordinate, ticket_type):
 @app.route('/prices')
 def prices():
     pass
+
+
 
