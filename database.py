@@ -32,6 +32,19 @@ class Database:
         conn.close()
                 
         return res is None
+
+    def get_user_info(self, user_id):
+        conn = sqlite3.connect(self.storage)
+        c = conn.cursor()
+        c.execute('''SELECT name, mail, password FROM user WHERE number=?''', (user_id))
+        res = c.fetchone()
+        conn.commit()
+        conn.close()
+
+        if res == None:
+            return User(0, "", "", "")
+
+        return User(user_id, res[1], res[2], res[3])
         
     def get_newest_user(self):
         conn = sqlite3.connect(self.storage)
@@ -69,9 +82,12 @@ class Database:
     def add_user(self, user):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''INSERT INTO users (number, name, mail, password ) VALUES (?,?,?,?)''', ((self.get_newest_user() + 1) , user.name, user.email, user.password))
+        user.id = (self.get_newest_user() + 1)
+        print(user.id)
+        c.execute('''INSERT INTO users (number, name, mail, password ) VALUES (?,?,?,?)''', (user.id, user.name, user.email, user.password))
         conn.commit()
         conn.close()
+        return user
         
     def get_prices(self):
         conn = sqlite3.connect(self.storage)

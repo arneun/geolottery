@@ -9,10 +9,12 @@ class UserController:
         self.connection = Database()
 
     def register_user(self, name, email, password):
-        user = User(name, email, password)
-        self.connection.add_user(user)
+        user = User(0, name, email, password)
+        user = self.connection.add_user(user)
         return jsonify(user.__dict__)
 
     def authenticate(self, username, password):
         return jsonify(self.connection.authenticate(username, password))
 
+    def get_user_info(self, user_id):
+        return jsonify(self.connection.get_user_info(user_id).__dict__)
