@@ -20,7 +20,8 @@ def bet(x_coordinate, y_coordinate, ticket_type, user_id):
 
 @app.route('/prices')
 def prices(price, size):
-    pass
+    price_c = PriceController()
+    return price_c.get_prices()
 
 
 
