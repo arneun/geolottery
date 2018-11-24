@@ -2,13 +2,12 @@ import time
 from country_checker import CountryChecker
 from bet import Bet
 from database import Database
-import json
+from flask import jsonify
 
 
 class BetController:
 
-    def __init__(self, bet_manager):
-        self.bet_manager = bet_manager
+    def __init__(self):
         self.connection = Database()
 
     def add_new_bet(self, x_coordinate, y_coordinate, ticket_type, user_id):
@@ -21,6 +20,10 @@ class BetController:
 
         return None
 
+    def get_user_bets(self, user_id):
+        bets = self.connection.get_user_bets(user_id)
+        return jsonify(bets)
+
     def get_bets(self, user_id):
-        bets = self.connection.get_bets(user_id)
-        return json.dump(bets)
+        bets = self.connection.get_bets()
+        return jsonify(bets)

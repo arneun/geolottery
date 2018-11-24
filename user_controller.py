@@ -1,5 +1,6 @@
 from database import Database
 from user import User
+from flask import jsonify
 
 
 class UserController:
@@ -10,8 +11,8 @@ class UserController:
     def register_user(self, name, email, password):
         user = User(name, email, password)
         self.connection.add_user(user)
-        return user
+        return jsonify(user)
 
     def authenticate(self, username, password):
-        return self.connection.authenticate(username, password)
+        return jsonify(self.connection.authenticate(username, password))
 

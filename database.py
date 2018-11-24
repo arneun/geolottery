@@ -8,7 +8,7 @@ from price import Price
 class Database:
 
     def setup(self):
-        conn = sqlite3.connect('/home/.geolottery_storage')
+        conn = sqlite3.connect("/home/.geolottery_storage")
         c = conn.cursor()
         c.execute('''CREATE TABLE user (number integer, name text, mail text, password text) ''')
         conn.commit()
