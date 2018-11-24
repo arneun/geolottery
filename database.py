@@ -1,6 +1,6 @@
 
 import sqlite3
-from user.user import User
+from user import User
 
 
 class Database:

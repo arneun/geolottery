@@ -1,5 +1,5 @@
-import map.country_checker as country_checker
-from bets.bet_manager import BetManager
+import country_checker as country_checker
+from bet_manager import BetManager
 from flask import abort
 
 
