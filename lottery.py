@@ -1,5 +1,7 @@
 from database import Database
 from distance_calculator import Calculator
+from random import Random
+from country_checker import CountryChecker
 
 
 class Lottery:
@@ -24,3 +26,17 @@ class Lottery:
             return lowest_bet
 
         return None
+
+    def generate_random_coordinates(self):
+        minN = 49.00
+        maxN = 54.50
+        minE = 14.7
+        maxE = 27.09
+        r = Random()
+        random_latitude = minN + (maxN - minN) * r.random()
+        random_longitude = minE + (maxE - minE) * r.random()
+
+        c = CountryChecker()
+        if c.check_if_in_poland(random_latitude, random_longitude):
+            return random_latitude, random_longitude
+        return self.generate_random_coordinates()
