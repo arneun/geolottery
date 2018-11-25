@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 from user import User
 from bet import Bet
 from price import Price
@@ -141,3 +142,26 @@ class Database:
         for row in res:
             result.append(Bet(row[1], row[2], row[3], row[4]))
         return result
+
+    def reseed_database(self):
+        conn = sqlite3.connect(self.storage)
+        c = conn.cursor()
+
+        c.execute('''TRUNCATE TABLE users''') 
+        c.execute('''TRUNCATE TABLE prices''')
+        c.execute('''TRUNCATE TABLE prizes''')
+        c.execute('''TRUNCATE TABLE bets''')
+
+        c.execute('''INSERT INTO prices ( price, size ) VALUES (?,?)''', ( 2,  1 ) )
+        c.execute('''INSERT INTO prices ( price, size ) VALUES (?,?)''', ( 5,  2 ) )
+        c.execute('''INSERT INTO prices ( price, size ) VALUES (?,?)''', ( 10, 3 ) )
+
+        c.execute('''INSERT INTO users (number, name, mail, password ) VALUES (?,?,?,?)''', (
+1 , 'Andrzej Strzelba', 'user@example.com', 'example') )
+
+        c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?)''', ( 1, 51.4, 21.166667, 3, bet.timestamp, self.get_newest_user() ) )
+
+        c.execute('''INSERT INTO prizes ( lottery_time, prize ) VALUES (?,?)''', ( datetime.datetime(1992, 4, 15, 13, 37), 1666 ) )
+
+        conn.commit()
+        conn.close()
