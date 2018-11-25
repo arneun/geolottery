@@ -1,5 +1,4 @@
 import json
-
 import requests
 
 
@@ -18,6 +17,6 @@ class CountryChecker:
         response = requests.get(address)
 
         response_json = json.loads(response.content)
-
+        print(response_json)
         return response_json['address']['country_code'] == 'pl'
 

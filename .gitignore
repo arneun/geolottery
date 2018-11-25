@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# unfortunate database file
+.db
+
+# Python virtualenv
+virtualenv/

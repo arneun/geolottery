@@ -5,8 +5,10 @@ from bet_controller import BetController
 from database import Database
 from price_controller import PriceController
 from prize_controller import PrizeController
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def index():
@@ -27,6 +29,12 @@ def user_info(user_id):
 @app.route('/bet', methods=['GET'])
 def bet_form():
     return render_template('bet_form.html')
+
+@app.route('/auth/<login>/<password>')
+def auth(login, password):
+    user_c = UserController()
+    return user_c.authenticate(login, password)
+
 
 @app.route('/bet/<x_coordinate>/<y_coordinate>/<ticket_type>/<user_id>', methods=['POST'])
 def bet(x_coordinate, y_coordinate, ticket_type, user_id):

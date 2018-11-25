@@ -1,5 +1,5 @@
 import sqlite3
-import datetime
+from datetime import datetime, timedelta 
 import time
 
 from user import User
@@ -21,9 +21,9 @@ class Database:
         c.execute('''CREATE TABLE prices (size integer, price integer)''')
         conn.commit()
         
-        c.execute('''CREATE TABLE prizes (lottery_time text, prize integer ) '''  )
+        c.execute('''CREATE TABLE prizes (lottery_time timestamp, prize integer ) '''  )
         conn.commit()
-        c.execute('''CREATE TABLE bets (id, latitude real, longitude real, ticket_type integer, timestamp text, user_id integer) ''')
+        c.execute('''CREATE TABLE bets (id, latitude real, longitude real, ticket_type integer, timestamp timestamp, user_id integer) ''')
         conn.commit()
         conn.close()
     
@@ -78,7 +78,7 @@ class Database:
     def add_bet(self, bet):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?)''', (
+        c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?,?)''', (
         self.get_newest_bet() + 1, bet.latitude, bet.longitude, bet.ticket_type, bet.timestamp, bet.user))
         conn.commit()
         conn.close()
@@ -125,13 +125,15 @@ class Database:
         c = conn.cursor()
         c.execute('''SELECT lottery_time, prize FROM prizes''' )
         res = c.fetchall()
+        print(res)
         conn.commit()
         conn.close()
         
         result = [] 
         for row in res:
-            result.append(Prizes(row[0], row[1]) )
-    
+            result.append(Prizes(datetime.strptime(row[0],'%Y-%m-%d %H:%M:%S').isoformat(), row[1]).__dict__ )
+        return result
+
     def get_bets(self):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
@@ -142,7 +144,7 @@ class Database:
 
         result = []
         for row in res:
-            result.append(Bet(row[1], row[2], row[3], row[4]))
+            result.append(Bet(row[1], row[2], row[3], datetime.strptime(row[4],'%Y-%m-%d %H:%M:%S').isoformat()))
         return result
 
     def reseed_database(self):
@@ -163,7 +165,7 @@ class Database:
 
         c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?,?)''', ( 1, 51.4, 21.166667, 3, time.time(), self.get_newest_user() ) )
 
-        c.execute('''INSERT INTO prizes ( lottery_time, prize ) VALUES (?,?)''', ( datetime.datetime(1992, 4, 15, 13, 37), 1666 ) )
+        c.execute('''INSERT INTO prizes ( lottery_time, prize ) VALUES (?,?)''', ( datetime.now() + timedelta(days=1), 1666 ) )
 
         conn.commit()
         conn.close()
