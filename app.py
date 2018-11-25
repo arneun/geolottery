@@ -5,9 +5,10 @@ from bet_controller import BetController
 from database import Database
 from price_controller import PriceController
 from prize_controller import PrizeController
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/user/register/<name>/<email>/<password>')
 def registration(name, email, password):

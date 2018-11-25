@@ -1,5 +1,5 @@
 import sqlite3
-import datetime
+from datetime import datetime 
 import time
 
 from user import User
@@ -21,9 +21,9 @@ class Database:
         c.execute('''CREATE TABLE prices (size integer, price integer)''')
         conn.commit()
         
-        c.execute('''CREATE TABLE prizes (lottery_time text, prize integer ) '''  )
+        c.execute('''CREATE TABLE prizes (lottery_time timestamp, prize integer ) '''  )
         conn.commit()
-        c.execute('''CREATE TABLE bets (id, latitude real, longitude real, ticket_type integer, timestamp text, user_id integer) ''')
+        c.execute('''CREATE TABLE bets (id, latitude real, longitude real, ticket_type integer, timestamp timestamp, user_id integer) ''')
         conn.commit()
         conn.close()
     
