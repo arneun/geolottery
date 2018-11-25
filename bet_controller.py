@@ -16,7 +16,7 @@ class BetController:
         if checker.check_if_in_poland(x_coordinate, y_coordinate):
             new_bet = Bet(x_coordinate, y_coordinate, ticket_type, time.time(), user_id)
             self.connection.add_bet(new_bet)
-            return new_bet
+            return jsonify(new_bet.__dict__)
 
         return None
 
@@ -24,6 +24,6 @@ class BetController:
         bets = self.connection.get_user_bets(user_id)
         return jsonify(bets)
 
-    def get_bets(self, user_id):
+    def get_bets(self):
         bets = self.connection.get_bets()
         return jsonify(bets)

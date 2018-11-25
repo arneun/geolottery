@@ -78,7 +78,7 @@ class Database:
     def add_bet(self, bet):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?)''', (
+        c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?,?)''', (
         self.get_newest_bet() + 1, bet.latitude, bet.longitude, bet.ticket_type, bet.timestamp, bet.user))
         conn.commit()
         conn.close()
