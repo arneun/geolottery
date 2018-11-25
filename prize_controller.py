@@ -1,6 +1,7 @@
 from database import Database
 from prize import Prizes
-from flask import jsonify
+from flask import Response
+import json
 
 class PrizeController:
 
@@ -9,7 +10,7 @@ class PrizeController:
 
     def get_prizes(self):
         prizes = self.connection.get_prizes()
-        return jsonify(prizes)
+        return Response(json.dumps(prizes),  mimetype='application/json')
         
 
 

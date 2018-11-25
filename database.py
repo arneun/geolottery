@@ -125,13 +125,15 @@ class Database:
         c = conn.cursor()
         c.execute('''SELECT lottery_time, prize FROM prizes''' )
         res = c.fetchall()
+        print(res)
         conn.commit()
         conn.close()
         
         result = [] 
         for row in res:
-            result.append(Prizes(row[0], row[1]) )
-    
+            result.append(Prizes(row[0], row[1]).__dict__ )
+        return result
+
     def get_bets(self):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
