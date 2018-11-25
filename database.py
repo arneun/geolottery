@@ -78,7 +78,7 @@ class Database:
     def add_bet(self, bet):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?)''', (
+        c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?,?)''', (
         self.get_newest_bet() + 1, bet.latitude, bet.longitude, bet.ticket_type, bet.timestamp, bet.user))
         conn.commit()
         conn.close()
@@ -151,10 +151,10 @@ class Database:
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
 
-        #c.execute('''TRUNCATE TABLE users''')
-        #c.execute('''TRUNCATE TABLE prices''')
-        #c.execute('''TRUNCATE TABLE prizes''')
-        #c.execute('''TRUNCATE TABLE bets''')
+        c.execute('''DELETE FROM users''')
+        c.execute('''DELETE FROM prices''')
+        c.execute('''DELETE FROM prizes''')
+        c.execute('''DELETE FROM bets''')
 
         c.execute('''INSERT INTO prices ( price, size ) VALUES (?,?)''', ( 2,  1 ) )
         c.execute('''INSERT INTO prices ( price, size ) VALUES (?,?)''', ( 5,  2 ) )

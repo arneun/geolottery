@@ -1,6 +1,4 @@
 import json
-
-import json
 # get this object
 from flask import Response
 
