@@ -9,4 +9,4 @@ class PriceController:
 
     def get_prices(self):
         prices = self.connection.get_prices()
-        return jsonify(prices)
+        return jsonify(prices.__dict__)
