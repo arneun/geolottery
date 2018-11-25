@@ -149,10 +149,10 @@ class Database:
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
 
-        #c.execute('''TRUNCATE TABLE users''')
-        #c.execute('''TRUNCATE TABLE prices''')
-        #c.execute('''TRUNCATE TABLE prizes''')
-        #c.execute('''TRUNCATE TABLE bets''')
+        c.execute('''DELETE FROM users''')
+        c.execute('''DELETE FROM prices''')
+        c.execute('''DELETE FROM prizes''')
+        c.execute('''DELETE FROM bets''')
 
         c.execute('''INSERT INTO prices ( price, size ) VALUES (?,?)''', ( 2,  1 ) )
         c.execute('''INSERT INTO prices ( price, size ) VALUES (?,?)''', ( 5,  2 ) )
