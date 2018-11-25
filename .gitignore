@@ -105,3 +105,6 @@ venv.bak/
 
 # unfortunate database file
 .db
+
+# Python virtualenv
+virtualenv/
