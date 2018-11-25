@@ -1,4 +1,4 @@
-from flask import Flask, session, request
+from flask import Flask, session, request, Response, render_template
 import os
 from user_controller import UserController
 from bet_controller import BetController
@@ -8,6 +8,9 @@ from prize_controller import PrizeController
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    pass
 
 @app.route('/user/register/<name>/<email>/<password>')
 def registration(name, email, password):
@@ -21,6 +24,9 @@ def user_info(user_id):
     user_c = UserController()
     return user_c.get_user_info(user_id)
 
+@app.route('/bet', methods=['GET'])
+def bet_form():
+    return render_template('bet_form.html')
 
 @app.route('/bet/<x_coordinate>/<y_coordinate>/<ticket_type>/<user_id>', methods=['POST'])
 def bet(x_coordinate, y_coordinate, ticket_type, user_id):
