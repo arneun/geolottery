@@ -49,11 +49,12 @@ class Database:
     def get_newest_user(self):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''SELECT MAX(number) FROM user''')
+        c.execute('''SELECT * FROM users ORDER BY number DESC''')
         res = c.fetchone()
         conn.commit()
         conn.close()
-        if res[0] is None:
+        
+        if res is None:
             return 0
         else:
             return res[0]
@@ -61,11 +62,10 @@ class Database:
     def get_newest_bet(self):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''SELECT MAX(id) FROM bets''')
+        c.execute('''SELECT * FROM bets ORDER BY id''')
         res = c.fetchone()
         conn.commit()
         conn.close()
-        
         if res[0] is None:
             return 0
         else:
@@ -86,6 +86,7 @@ class Database:
         print(user.id)
         c.execute('''INSERT INTO users (number, name, mail, password ) VALUES (?,?,?,?)''', (user.id, user.name, user.email, user.password))
         conn.commit()
+        
         conn.close()
         return user
         
