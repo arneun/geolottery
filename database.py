@@ -2,6 +2,7 @@ import sqlite3
 from user import User
 from bet import Bet
 from price import Price
+from prize import Prizes
 
 
 class Database:
@@ -93,7 +94,7 @@ class Database:
     def get_prices(self):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''SELECT (size, price) FROM prices''' )
+        c.execute('''SELECT size, price FROM prices''')
         res = c.fetchall()
         conn.commit()
         conn.close()
@@ -106,7 +107,7 @@ class Database:
     def get_user_bets(self, user_id):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''SELECT (id, latitude, longitude, ticket_type, timestamp) FROM bets WHERE user_id = ?''', (user_id) )
+        c.execute('''SELECT id, latitude, longitude, ticket_type, timestamp FROM bets WHERE user_id = ?''', (user_id) )
         res = c.fetchall()
         conn.commit()
         conn.close()
@@ -117,21 +118,21 @@ class Database:
         return result
 
     def get_prizes(self):
-        conn = sqlite3.connect('/home/.geolottery_storage')
+        conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''SELECT (lottery_time, prize) FROM prices''' )
+        c.execute('''SELECT lottery_time, prize FROM prizes''' )
         res = c.fetchall()
         conn.commit()
         conn.close()
         
         result = [] 
         for row in res:
-            result.append(Prize(row[0], row[1]) )
+            result.append(Prizes(row[0], row[1]) )
     
     def get_bets(self):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''SELECT (id, latitude, longitude, ticket_type, timestamp) FROM bets''')
+        c.execute('''SELECT id, latitude, longitude, ticket_type, timestamp FROM bets''')
         res = c.fetchall()
         conn.commit()
         conn.close()
