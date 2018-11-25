@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import datetime 
+from datetime import datetime, timedelta 
 import time
 
 from user import User
@@ -165,7 +165,7 @@ class Database:
 
         c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?,?)''', ( 1, 51.4, 21.166667, 3, time.time(), self.get_newest_user() ) )
 
-        c.execute('''INSERT INTO prizes ( lottery_time, prize ) VALUES (?,?)''', ( datetime(1992, 4, 15, 13, 37), 1666 ) )
+        c.execute('''INSERT INTO prizes ( lottery_time, prize ) VALUES (?,?)''', ( datetime.now() + timedelta(days=1), 1666 ) )
 
         conn.commit()
         conn.close()
