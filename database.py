@@ -40,7 +40,7 @@ class Database:
     def get_user_info(self, user_id):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''SELECT name, mail, password FROM users WHERE number=?''', (user_id))
+        c.execute('''SELECT name, mail, password FROM users WHERE number=?''', (str(user_id)))
         res = c.fetchone()
         conn.commit()
         conn.close()
@@ -48,8 +48,8 @@ class Database:
         if res is None:
             return User(0, "", "", "")
 
-        return User(user_id, res[0], res[1], res[2])
-        
+        return User(user_id, res[0], res[1], res[2]) 
+
     def get_newest_user(self):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
@@ -70,7 +70,7 @@ class Database:
         res = c.fetchone()
         conn.commit()
         conn.close()
-        if res[0] is None:
+        if res is None:
             return 0
         else:
             return res[0]
@@ -79,7 +79,7 @@ class Database:
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
         c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?,?)''', (
-        self.get_newest_bet() + 1, bet.latitude, bet.longitude, bet.ticket_type, bet.timestamp, bet.user))
+            self.get_newest_bet() + 1, bet.latitude, bet.longitude, bet.ticket_type, bet.timestamp.isoformat()[:19], bet.user))
         conn.commit()
         conn.close()
 
@@ -117,7 +117,7 @@ class Database:
         
         result = [] 
         for row in res:
-            result.append(Bet( row[1], row[2], row[3], row[4], user_id) )
+            result.append(Bet( row[1], row[2], row[3], row[4], user_id).__dict__ )
         return result
 
     def get_prizes(self):
@@ -137,14 +137,14 @@ class Database:
     def get_bets(self):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''SELECT id, latitude, longitude, ticket_type, timestamp FROM bets''')
+        c.execute('''SELECT id, latitude, longitude, ticket_type, timestamp, user_id FROM bets''')
         res = c.fetchall()
         conn.commit()
         conn.close()
-
+        print(res)
         result = []
         for row in res:
-            result.append(Bet(row[1], row[2], row[3], datetime.strptime(row[4],'%Y-%m-%dT%H:%M:%S').isoformat()))
+            result.append(Bet(row[1], row[2], row[3], datetime.strptime(row[4],'%Y-%m-%dT%H:%M:%S').isoformat(), row[5] ))
         return result
 
     def reseed_database(self):
