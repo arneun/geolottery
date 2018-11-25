@@ -104,7 +104,7 @@ class Database:
         
         result = [] 
         for row in res:
-            result.append(Price(row[0], row[1]) )
+            result.append(Price(row[0], row[1]).__dict__)
         return result
 
     def get_user_bets(self, user_id):

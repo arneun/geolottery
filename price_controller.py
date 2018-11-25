@@ -1,6 +1,11 @@
-from price import Price
+import json
+
+import json
+# get this object
+from flask import Response
+
 from database import Database
-from flask import jsonify
+
 
 class PriceController:
 
@@ -9,4 +14,4 @@ class PriceController:
 
     def get_prices(self):
         prices = self.connection.get_prices()
-        return jsonify(prices.__dict__)
+        return Response(json.dumps(prices),  mimetype='application/json')
