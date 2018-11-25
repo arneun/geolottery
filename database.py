@@ -131,7 +131,7 @@ class Database:
         
         result = [] 
         for row in res:
-            result.append(Prizes(row[0], row[1]).__dict__ )
+            result.append(Prizes(datetime.strptime(row[0],'%Y-%m-%d %H:%M:%S').isoformat(), row[1]).__dict__ )
         return result
 
     def get_bets(self):
@@ -144,7 +144,7 @@ class Database:
 
         result = []
         for row in res:
-            result.append(Bet(row[1], row[2], row[3], row[4]))
+            result.append(Bet(row[1], row[2], row[3], datetime.strptime(row[4],'%Y-%m-%d %H:%M:%S').isoformat()))
         return result
 
     def reseed_database(self):
@@ -165,7 +165,7 @@ class Database:
 
         c.execute('''INSERT INTO bets (id, latitude, longitude,ticket_type,timestamp ,user_id) VALUES (?,?,?,?,?,?)''', ( 1, 51.4, 21.166667, 3, time.time(), self.get_newest_user() ) )
 
-        c.execute('''INSERT INTO prizes ( lottery_time, prize ) VALUES (?,?)''', ( datetime.datetime(1992, 4, 15, 13, 37), 1666 ) )
+        c.execute('''INSERT INTO prizes ( lottery_time, prize ) VALUES (?,?)''', ( datetime(1992, 4, 15, 13, 37), 1666 ) )
 
         conn.commit()
         conn.close()
