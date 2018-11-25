@@ -23,6 +23,12 @@ def user_info(user_id):
     return user_c.get_user_info(user_id)
 
 
+@app.route('/auth/<login>/<password>')
+def auth(login, password):
+    user_c = UserController()
+    return user_c.authenticate(login, password)
+
+
 @app.route('/bet/<x_coordinate>/<y_coordinate>/<ticket_type>/<user_id>', methods=['POST'])
 def bet(x_coordinate, y_coordinate, ticket_type, user_id):
     bet_c = BetController()
