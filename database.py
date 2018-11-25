@@ -40,15 +40,15 @@ class Database:
     def get_user_info(self, user_id):
         conn = sqlite3.connect(self.storage)
         c = conn.cursor()
-        c.execute('''SELECT name, mail, password FROM user WHERE number=?''', (user_id))
+        c.execute('''SELECT name, mail, password FROM users WHERE number=?''', (user_id))
         res = c.fetchone()
         conn.commit()
         conn.close()
 
-        if res == None:
+        if res is None:
             return User(0, "", "", "")
 
-        return User(user_id, res[1], res[2], res[3])
+        return User(user_id, res[0], res[1], res[2])
         
     def get_newest_user(self):
         conn = sqlite3.connect(self.storage)
