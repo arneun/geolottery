@@ -1,4 +1,4 @@
-from flask import Flask, session, request
+from flask import Flask, session, request, jsonify
 import os
 from user_controller import UserController
 from bet_controller import BetController
@@ -6,6 +6,8 @@ from database import Database
 from price_controller import PriceController
 from prize_controller import PrizeController
 from flask_cors import CORS
+from lottery import Lottery
+
 
 app = Flask(__name__)
 CORS(app)
@@ -51,3 +53,23 @@ def prices():
 def prizes():
     prize_c = PrizeController()
     return prize_c.get_prizes()
+
+
+@app.route('/winner')
+def winner():
+    lot = Lottery()
+    winning = lot.generate_random_coordinates()
+    win_user = lot.get_winner(winning[0], winning[1])
+    if win_user is None:
+        return jsonify(User(0, "", "", "").__dict__)
+    return jsonify(win_user.__dict__)
+
+
+@app.route('/defwinner')
+def def_winner():
+    bet_c = BetController()
+    bet_c.add_new_bet(51.107548, 17.061917, 3, 2)
+    lot = Lottery()
+    win_user = lot.get_winner(51.110809, 17.064131)
+    print(win_user)
+    return jsonify(win_user.__dict__)

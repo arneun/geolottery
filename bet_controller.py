@@ -1,4 +1,4 @@
-import time
+from datetime import datetime
 from country_checker import CountryChecker
 from bet import Bet
 from database import Database
@@ -14,7 +14,7 @@ class BetController:
         checker = CountryChecker()
 
         if checker.check_if_in_poland(x_coordinate, y_coordinate):
-            new_bet = Bet(x_coordinate, y_coordinate, ticket_type, time.time(), user_id)
+            new_bet = Bet(x_coordinate, y_coordinate, ticket_type, datetime.now(), user_id)
             self.connection.add_bet(new_bet)
             return jsonify(new_bet.__dict__)
 
